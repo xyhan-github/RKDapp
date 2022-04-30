@@ -1,9 +1,15 @@
 import torch
 from PIL import Image
+from gc import collect
 
 def predict(image_path, model, transform, ind_to_label):
     # Create transforms
     #https://pytorch.org/docs/stable/torchvision/models.html
+
+    # clean memory
+    if torch.cuda.is_available():
+        torch.cuda.empty_cache()
+    collect()
 
     img = Image.open(image_path)
     batch_t = torch.unsqueeze(transform(img), 0)
