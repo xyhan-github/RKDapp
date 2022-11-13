@@ -9,7 +9,7 @@ import torch.nn.functional as F
 import torch.utils.checkpoint as cp
 import torch.utils.model_zoo as model_zoo
 
-from IPython import embed
+# from IPython import embed
 from copy import deepcopy
 from collections import OrderedDict
 from torch.autograd import Variable
