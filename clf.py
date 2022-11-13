@@ -20,7 +20,15 @@ def predict(image_path, model, transform, ind_to_label):
     out = model(batch_t)
     prob = torch.nn.functional.softmax(out, dim=1)[0] * 100
     _, indices = torch.sort(out, descending=True)
-    return [(ind_to_label[int(idx)], prob[idx].item()) for idx in indices[0][:TOPN]]
+
+    output = [(ind_to_label[int(idx)], prob[idx].item()) for idx in indices[0][:TOPN]]
+
+    # clean memory
+    if torch.cuda.is_available():
+        torch.cuda.empty_cache()
+    collect()
+
+    return output
 
 
 # FOR TESTING
