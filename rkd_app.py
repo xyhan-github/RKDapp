@@ -48,7 +48,7 @@ if file_up is not None:
     image = Image.open(file_up)
     st.image(image, caption='Uploaded Image.', use_column_width=True)
     st.write("")
-    st.write("Top 10 Predictions:")
+    st.write("Top 5 Predictions:")
 
     # TO DO: Move the model loading outside the file uploader
     labels = predict(file_up, model, transform, ind_to_label)

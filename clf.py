@@ -2,6 +2,8 @@ import torch
 from PIL import Image
 from gc import collect
 
+TOPN = 5
+
 def predict(image_path, model, transform, ind_to_label):
     # Create transforms
     #https://pytorch.org/docs/stable/torchvision/models.html
@@ -18,7 +20,7 @@ def predict(image_path, model, transform, ind_to_label):
     out = model(batch_t)
     prob = torch.nn.functional.softmax(out, dim=1)[0] * 100
     _, indices = torch.sort(out, descending=True)
-    return [(ind_to_label[int(idx)], prob[idx].item()) for idx in indices[0][:10]]
+    return [(ind_to_label[int(idx)], prob[idx].item()) for idx in indices[0][:TOPN]]
 
 
 # FOR TESTING
