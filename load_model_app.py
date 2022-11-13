@@ -5,6 +5,11 @@ import torch.nn as nn
 from network_app import Network
 from collections import OrderedDict
 
+try:
+    from torch.hub import load_state_dict_from_url
+except ImportError:
+    from torch.utils.model_zoo import load_url as load_state_dict_from_url
+
 def replace(string, substitutions):
 
     substrings = sorted(substitutions, key=len, reverse=True)
@@ -22,7 +27,10 @@ def load_model(obj, prefix=''):
     print("Loading checkpoint:")
     print(obj.checkpoint)
 
-    state_dict = torch.load(obj.checkpoint, map_location=lambda storage, loc: storage)
+    try:
+        state_dict = torch.load(obj.checkpoint, map_location=lambda storage, loc: storage)
+    except:
+        state_dict = load_state_dict_from_url(obj.checkpoint, map_location=lambda storage, loc: storage)
 
     try:
         model.load_state_dict(state_dict)
