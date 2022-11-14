@@ -17,8 +17,9 @@ def predict(image_path, model, transform, ind_to_label):
     batch_t = torch.unsqueeze(transform(img), 0)
 
     model.eval()
-    out = model(batch_t)
-    prob = torch.nn.functional.softmax(out, dim=1)[0] * 100
+    with torch.no_grad:
+        out = model(batch_t)
+        prob = torch.nn.functional.softmax(out, dim=1)[0] * 100
     _, indices = torch.sort(out, descending=True)
 
     output = [(ind_to_label[int(idx)], prob[idx].item()) for idx in indices[0][:TOPN]]
