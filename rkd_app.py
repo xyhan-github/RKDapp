@@ -34,17 +34,22 @@ info = {
 info = type('obj', (object,), info)
 
 # load model and transform
-model = load_model(info)
-model.eval()
-torch.no_grad()
-transform = transforms.Compose([
-    transforms.Resize(256),
-    transforms.CenterCrop(224),
-    transforms.ToTensor(),
-    transforms.Normalize(
-        mean=[0.485, 0.456, 0.406],
-        std=[0.229, 0.224, 0.225]
-    )])
+@st.experimental_singleton
+def get_model(info):
+    model = load_model(info)
+    model.eval()
+    torch.no_grad()
+    transform = transforms.Compose([
+        transforms.Resize(256),
+        transforms.CenterCrop(224),
+        transforms.ToTensor(),
+        transforms.Normalize(
+            mean=[0.485, 0.456, 0.406],
+            std=[0.229, 0.224, 0.225]
+        )])
+    return model, transform
+
+model, transform = get_model(info)
 
 if file_up is not None:
     image = Image.open(file_up)
@@ -58,3 +63,7 @@ if file_up is not None:
     # print out the top 5 prediction labels with scores
     for i in labels:
         bold_lab = st.markdown("PREDICTION: "+'**'+i[0]+'**'+" || SCORE (Out of 100): *"+str(i[1])+"*")
+
+if st.button("Reload Network"):
+    # Clears all singleton caches:
+    st.experimental_singleton.clear()
