@@ -35,6 +35,7 @@ info = type('obj', (object,), info)
 
 # load model and transform
 model = load_model(info)
+model.eval()
 transform = transforms.Compose([
     transforms.Resize(256),
     transforms.CenterCrop(224),
