@@ -22,8 +22,8 @@ with open('ind_to_label.json') as f:
 
 # create dictionary
 info = {
-    'checkpoint': 'https://github.com/xiaoyanh/RKDapp/blob/main/dataset=RKDMuseum-net=ResNet50-lr=0p01-examples_per_class=None-num_classes=775-train_seed=0-forward_class=Classification-epoch=300.pth?raw=true',
-    'net': 'ResNet50',
+    'checkpoint': 'dataset=RKDMuseum-net=ResNet152-lr=0p001-examples_per_class=None-num_classes=775-train_seed=0-forward_class=Classification-epoch=300.pth?raw=true',
+    'net': 'ResNet152',
     'num_classes': len(ind_to_label.keys()),
     'resnet_type': 'big',
     'pretrained': False,
