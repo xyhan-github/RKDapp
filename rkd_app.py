@@ -67,6 +67,6 @@ if file_up is not None:
     for i in labels:
         bold_lab = st.markdown("PREDICTION: "+'**'+i[0]+'**'+" || SCORE (Out of 100): *"+str(i[1])+"*")
 
-if st.button("Reset Network (Don't Click Unless Something is Wrong)"):
-    # Clears all singleton caches:
-    st.experimental_singleton.clear()
+# if st.button("Reset Network (Don't Click Unless Something is Wrong)"):
+#     # Clears all singleton caches:
+#     st.experimental_singleton.clear()
