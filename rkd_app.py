@@ -7,7 +7,7 @@ from torchvision import transforms
 from load_model_app import load_model
 
 TOPN = None
-THRES = 0.02
+THRES = 2.0
 
 # Create Titles Etc.
 st.set_option('deprecation.showfileUploaderEncoding', False)
