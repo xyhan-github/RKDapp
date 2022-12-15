@@ -6,6 +6,8 @@ from clf import predict
 from torchvision import transforms
 from load_model_app import load_model
 
+TOPN = 10
+
 # Create Titles Etc.
 st.set_option('deprecation.showfileUploaderEncoding', False)
 
@@ -55,12 +57,12 @@ if file_up is not None:
     image = Image.open(file_up)
     st.image(image, caption='Uploaded Image.', use_column_width=True)
     st.write("")
-    st.write("Top 5 Predictions:")
+    st.write("Top %i Predictions:"%TOPN)
 
     # TO DO: Move the model loading outside the file uploader
-    labels = predict(file_up, model, transform, ind_to_label)
+    labels = predict(file_up, model, transform, ind_to_label, topn = TOPN)
 
-    # print out the top 5 prediction labels with scores
+    # print out the top n prediction labels with scores
     for i in labels:
         bold_lab = st.markdown("PREDICTION: "+'**'+i[0]+'**'+" || SCORE (Out of 100): *"+str(i[1])+"*")
 
