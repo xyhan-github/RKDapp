@@ -2,7 +2,7 @@ import torch
 from PIL import Image
 from gc import collect
 
-def predict(image_path, model, transform, ind_to_label, topn=5):
+def predict(image_path, model, transform, ind_to_label, thres=None, topn=None):
     # Create transforms
     #https://pytorch.org/docs/stable/torchvision/models.html
 
@@ -20,7 +20,16 @@ def predict(image_path, model, transform, ind_to_label, topn=5):
         prob = torch.nn.functional.softmax(out, dim=1)[0] * 100
     _, indices = torch.sort(out, descending=True)
 
-    output = [(ind_to_label[int(idx)], prob[idx].item()) for idx in indices[0][:topn]]
+    if thres is not None:
+        output = []
+        for idx in indices[0]:
+            if (prob[idx] < thres) and (idx > 0):
+                break
+            else:
+                output += [(ind_to_label[int(idx)], prob[idx].item())]
+    else:
+        assert topn is not None, 'Please specify topn or thres'
+        output = [(ind_to_label[int(idx)], prob[idx].item()) for idx in indices[0][:topn]]
 
     # clean memory
     if torch.cuda.is_available():
